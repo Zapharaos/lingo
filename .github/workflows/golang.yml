@@ -35,7 +35,7 @@ jobs:
 
       - name: Test with coverage
         run: |
-          go test $(go list ./... | grep -v '/examples') -short -race -shuffle=on -coverprofile=coverage_raw.out
+          go test $(go list ./... | grep -v '/examples' | grep -v '/test') -short -race -shuffle=on -coverprofile=coverage_raw.out
           grep -v '_mock.go' coverage_raw.out > coverage.out
 
       - name: Upload results to Codecov
