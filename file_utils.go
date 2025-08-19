@@ -139,7 +139,7 @@ func isValidFile(filePath string) bool {
 	if err != nil {
 		return false
 	}
-	defer file.Close()
+	_ = file.Close()
 
 	return true
 }

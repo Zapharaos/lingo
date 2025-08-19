@@ -30,7 +30,7 @@ func TestDiscoverTranslationFiles(t *testing.T) {
 		filePath := filepath.Join(dir, "notadir.txt")
 		file, err := os.Create(filePath)
 		require.NoError(t, err)
-		file.Close()
+		_ = file.Close()
 
 		files, err := discoverTranslationFiles(filePath)
 		assert.Error(t, err)
