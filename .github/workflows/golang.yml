@@ -1,0 +1,46 @@
+name: Golang
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+
+  build:
+    strategy:
+      matrix:
+        go: [ 'stable' ]
+        os: [ ubuntu-latest ]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.version }}
+
+      - name: Install dependencies
+        run: go mod download
+
+      - name: Build
+        run: go build -v ./...
+
+      - name: Test with coverage
+        run: |
+          go test $(go list ./... | grep -v '/examples') -short -race -shuffle=on -coverprofile=coverage_raw.out
+          grep -v '_mock.go' coverage_raw.out > coverage.out
+
+      - name: Upload results to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: Zapharaos/lingo
+          files: coverage.out
