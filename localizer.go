@@ -1,5 +1,3 @@
-//go:generate mockgen -destination=localizer_mock.go -package=lingo . LocalizerService
-
 package lingo
 
 import (
@@ -7,9 +5,6 @@ import (
 
 	"golang.org/x/text/language"
 )
-
-// TODO : one doc per implementation ?
-// TODO : readme
 
 // LocalizerService defines the interface for handling localizers
 type LocalizerService interface {
